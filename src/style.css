@@ -1,0 +1,9 @@
+/* Global shrift o'lchamini kichikroq qilish */
+body {
+  font-size: 16px; /* Odatiy 16px bo'lsa, 14px kichikroq */
+}
+
+/* Barcha komponentlarda shriftni kichik qilish */
+* {
+  font-size: 16px;
+}
