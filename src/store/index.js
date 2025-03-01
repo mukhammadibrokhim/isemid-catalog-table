@@ -23,12 +23,12 @@ export default createStore({
     REMOVE_CATALOG(state, id) {
       state.catalogs = state.catalogs.filter(item => item.id !== id);
     },
-    UPDATE_CATALOG(state, updateCatalog){
-        const index = state.catalogs.findIndex(catalog => catalog.id === updatedCatalog.id);
-        if(index !== -1){
-            state.catalogs[index] = updateCatalog; 
-        }
-    },
+    UPDATE_CATALOG(state, updatedCatalog) {
+      const index = state.catalogs.findIndex(catalog => catalog.id === updatedCatalog.id);
+      if (index !== -1) {
+        state.catalogs[index] = { ...updatedCatalog }; // Yangi obyekt yaratish
+      }
+    },    
     ADD_CATALOG(state, newCatalog) {
         state.catalogs.push(newCatalog);
     },
@@ -46,14 +46,15 @@ export default createStore({
       commit("REMOVE_CATALOG", id);
       dispatch("loadCatalogs");
     },
-    async updateCatalog({ commit }, { id, data }) {
-        try {
-            await api.updateCatalog(id,data);
-            commit("UPDATE_CATALOG",data)
-        }catch (error){
-            console.log("Update error: ",error)
-        }
-    },
+    async updateCatalog({ commit }, updatedCatalog) {
+      try {
+        console.log("SendignData: ", updatedCatalog)
+          await api.updateCatalog(updatedCatalog.id, updatedCatalog);
+          commit("UPDATE_CATALOG", updatedCatalog);
+      } catch (error) {
+          console.log("Update error: ", error);
+      }
+    },  
     async createCatalog({ commit }, newCatalog) {
         console.log("Vuex action createCatalog ga kelgan data:", newCatalog);
         try {
